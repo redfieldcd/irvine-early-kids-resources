@@ -1,4 +1,4 @@
-import { createClient, type Client } from "@libsql/client";
+import { createClient, type Client } from "@libsql/client/web";
 
 let client: Client;
 
@@ -13,7 +13,10 @@ export function getTurso(): Client {
       );
     }
 
-    client = createClient({ url, authToken });
+    // Convert libsql:// to https:// for HTTP transport (required for Vercel serverless)
+    const httpUrl = url.replace(/^libsql:\/\//, "https://");
+
+    client = createClient({ url: httpUrl, authToken });
   }
   return client;
 }
