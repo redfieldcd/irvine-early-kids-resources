@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "siteTitle": "尔湾幼儿资源",
+    "siteDescription": "为加州尔湾0-7岁儿童寻找最佳学习资源、活动和支持。",
+    "ageGuideTitle": "年龄指南 | 尔湾幼儿资源",
+    "ageGuideDescription": "按年龄段查找尔湾0-7岁儿童推荐资源。",
+    "notFound": "未找到"
+  },
+  "nav": {
+    "siteName": "尔湾儿童资源",
+    "siteNameShort": "尔湾",
+    "ageGuide": "年龄指南",
+    "siblingRelationships": "兄弟姐妹关系",
+    "parentingTechniques": "育儿技巧",
+    "mandarinStudy": "中文学习",
+    "aftercarePrograms": "课后项目",
+    "weekendActivities": "周末活动",
+    "preschools": "学前班",
+    "toggleMenu": "切换菜单"
+  },
+  "home": {
+    "heroTitle": "尔湾幼儿资源",
+    "heroSubtitle": "为加州尔湾0-7岁儿童寻找最佳学习资源、活动和支持。",
+    "browseByAge": "按年龄浏览",
+    "exploreCategories": "探索资源分类",
+    "resourceCount": "{count} 个资源",
+    "ages": "年龄: {ages}",
+    "statsResources": "个资源",
+    "statsCategories": "个分类",
+    "statsAgeRange": "年龄段",
+    "statsOrangeCounty": "及橙县"
+  },
+  "ageGuide": {
+    "breadcrumbHome": "首页",
+    "breadcrumbAgeGuide": "年龄指南",
+    "title": "年龄指南",
+    "subtitle": "根据孩子的年龄和发展阶段，找到最适合的资源。",
+    "siblingResources": "兄弟姐妹资源",
+    "parentingResources": "育儿资源",
+    "mandarinOptions": "中文选项",
+    "aftercareOptions": "课后选项",
+    "weekendActivities": "周末活动",
+    "notAvailable": "暂无"
+  },
+  "category": {
+    "breadcrumbHome": "首页",
+    "resourceCount": "{count} 个资源",
+    "ages": "年龄: {ages}",
+    "other": "其他"
+  },
+  "resource": {
+    "breadcrumbHome": "首页",
+    "keyTopics": "主要话题",
+    "schedule": "时间安排",
+    "location": "地点",
+    "visitWebsite": "访问网站"
+  },
+  "likes": {
+    "like": "赞",
+    "dislike": "踩",
+    "score": "评分: {count}"
+  },
+  "comments": {
+    "title": "评论 ({count})",
+    "nicknamePlaceholder": "你的昵称（选填）",
+    "bodyPlaceholder": "分享你的经验或建议...",
+    "postComment": "发表评论",
+    "posting": "发布中...",
+    "noComments": "还没有评论。来第一个分享你的想法吧！",
+    "tooLong": "评论太长（最多500个字符）",
+    "failedToPost": "发表评论失败",
+    "justNow": "刚刚",
+    "minutesAgo": "{count}分钟前",
+    "hoursAgo": "{count}小时前",
+    "daysAgo": "{count}天前"
+  },
+  "footer": {
+    "madeWith": "用心为尔湾家庭制作",
+    "helpingParents": "帮助家长为孩子找到最好的资源"
+  },
+  "language": {
+    "switchLabel": "EN",
+    "current": "中文"
+  }
+}

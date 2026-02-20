@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "siteTitle": "Irvine Early Kids Resources",
+    "siteDescription": "Find the best learning resources, activities, and support for children ages 0-7 in Irvine, California.",
+    "ageGuideTitle": "Age Group Guide | Irvine Early Kids Resources",
+    "ageGuideDescription": "Find recommended resources by age group for children 0-7 in Irvine.",
+    "notFound": "Not Found"
+  },
+  "nav": {
+    "siteName": "Irvine Kids Resources",
+    "siteNameShort": "IKR",
+    "ageGuide": "Age Guide",
+    "siblingRelationships": "Sibling Relationships",
+    "parentingTechniques": "Parenting Techniques",
+    "mandarinStudy": "Mandarin Study",
+    "aftercarePrograms": "Aftercare Programs",
+    "weekendActivities": "Weekend Activities",
+    "preschools": "Preschools",
+    "toggleMenu": "Toggle menu"
+  },
+  "home": {
+    "heroTitle": "Irvine Early Kids Resources",
+    "heroSubtitle": "Find the best learning resources, activities, and support for children ages 0-7 in Irvine, California.",
+    "browseByAge": "Browse by Age Group",
+    "exploreCategories": "Explore Resource Categories",
+    "resourceCount": "{count} resources",
+    "ages": "Ages: {ages}",
+    "statsResources": "Resources",
+    "statsCategories": "Categories",
+    "statsAgeRange": "Age Range",
+    "statsOrangeCounty": "& Orange County"
+  },
+  "ageGuide": {
+    "breadcrumbHome": "Home",
+    "breadcrumbAgeGuide": "Age Group Guide",
+    "title": "Age Group Guide",
+    "subtitle": "Find the best resources for your child based on their age and developmental stage.",
+    "siblingResources": "Sibling Resources",
+    "parentingResources": "Parenting Resources",
+    "mandarinOptions": "Mandarin Options",
+    "aftercareOptions": "Aftercare Options",
+    "weekendActivities": "Weekend Activities",
+    "notAvailable": "N/A"
+  },
+  "category": {
+    "breadcrumbHome": "Home",
+    "resourceCount": "{count} resources",
+    "ages": "Ages: {ages}",
+    "other": "Other"
+  },
+  "resource": {
+    "breadcrumbHome": "Home",
+    "keyTopics": "Key Topics",
+    "schedule": "Schedule",
+    "location": "Location",
+    "visitWebsite": "Visit Website"
+  },
+  "likes": {
+    "like": "Like",
+    "dislike": "Dislike",
+    "score": "Score: {count}"
+  },
+  "comments": {
+    "title": "Comments ({count})",
+    "nicknamePlaceholder": "Your nickname (optional)",
+    "bodyPlaceholder": "Share your experience or tips...",
+    "postComment": "Post Comment",
+    "posting": "Posting...",
+    "noComments": "No comments yet. Be the first to share your thoughts!",
+    "tooLong": "Comment is too long (max 500 characters)",
+    "failedToPost": "Failed to post comment",
+    "justNow": "just now",
+    "minutesAgo": "{count}m ago",
+    "hoursAgo": "{count}h ago",
+    "daysAgo": "{count}d ago"
+  },
+  "footer": {
+    "madeWith": "Made with care for Irvine families",
+    "helpingParents": "Helping parents find the best resources for their little ones"
+  },
+  "language": {
+    "switchLabel": "中文",
+    "current": "EN"
+  }
+}
