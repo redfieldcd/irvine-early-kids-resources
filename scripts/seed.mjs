@@ -396,4 +396,8 @@ console.log(`  Subcategories: ${subCount}`);
 console.log(`  Resources: ${resCount}`);
 console.log(`  Age Group Guides: ${ageCount}`);
 
+// Switch from WAL to delete journal mode for read-only deployment (e.g., Vercel)
+db.pragma("journal_mode = DELETE");
+console.log("Switched journal mode to DELETE for read-only deployment.");
+
 db.close();
