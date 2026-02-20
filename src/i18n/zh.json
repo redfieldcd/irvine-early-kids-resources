@@ -74,9 +74,37 @@
     "hoursAgo": "{count}小时前",
     "daysAgo": "{count}天前"
   },
+  "feedback": {
+    "pageTitle": "反馈",
+    "pageDescription": "分享您对尔湾幼儿资源的反馈、建议或报告问题。",
+    "breadcrumbHome": "首页",
+    "breadcrumbFeedback": "反馈",
+    "title": "期待您的反馈",
+    "subtitle": "帮助我们改进！分享您的建议、报告问题，或告诉我们应该添加哪些资源。",
+    "nameLabel": "姓名（选填）",
+    "namePlaceholder": "您的姓名",
+    "emailLabel": "邮箱（选填）",
+    "emailPlaceholder": "your@email.com — 方便我们回复您",
+    "typeLabel": "反馈类型",
+    "typeGeneral": "一般反馈",
+    "typeSuggestion": "资源推荐",
+    "typeBug": "问题报告",
+    "typePartnership": "合作咨询",
+    "typeOther": "其他",
+    "messageLabel": "留言",
+    "messagePlaceholder": "告诉我们您的想法...",
+    "submit": "发送反馈",
+    "sending": "发送中...",
+    "thankYou": "感谢您！",
+    "thankYouMessage": "您的反馈已发送。感谢您帮助我们改进！",
+    "sendAnother": "再次反馈",
+    "errorGeneric": "出了点问题，请重试。",
+    "directEmail": "或直接发邮件给我们"
+  },
   "footer": {
     "madeWith": "用心为尔湾家庭制作",
-    "helpingParents": "帮助家长为孩子找到最好的资源"
+    "helpingParents": "帮助家长为孩子找到最好的资源",
+    "feedback": "反馈"
   },
   "language": {
     "switchLabel": "EN",

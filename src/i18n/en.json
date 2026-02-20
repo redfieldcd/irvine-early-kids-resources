@@ -74,9 +74,37 @@
     "hoursAgo": "{count}h ago",
     "daysAgo": "{count}d ago"
   },
+  "feedback": {
+    "pageTitle": "Feedback",
+    "pageDescription": "Share your feedback, suggestions, or report issues with Irvine Early Kids Resources.",
+    "breadcrumbHome": "Home",
+    "breadcrumbFeedback": "Feedback",
+    "title": "We'd Love Your Feedback",
+    "subtitle": "Help us improve! Share your suggestions, report issues, or let us know about resources we should add.",
+    "nameLabel": "Name (optional)",
+    "namePlaceholder": "Your name",
+    "emailLabel": "Email (optional)",
+    "emailPlaceholder": "your@email.com — so we can reply to you",
+    "typeLabel": "Feedback Type",
+    "typeGeneral": "General Feedback",
+    "typeSuggestion": "Resource Suggestion",
+    "typeBug": "Bug Report",
+    "typePartnership": "Partnership Inquiry",
+    "typeOther": "Other",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell us what's on your mind...",
+    "submit": "Send Feedback",
+    "sending": "Sending...",
+    "thankYou": "Thank You!",
+    "thankYouMessage": "Your feedback has been sent. We appreciate you helping us improve!",
+    "sendAnother": "Send Another",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "directEmail": "Or email us directly at"
+  },
   "footer": {
     "madeWith": "Made with care for Irvine families",
-    "helpingParents": "Helping parents find the best resources for their little ones"
+    "helpingParents": "Helping parents find the best resources for their little ones",
+    "feedback": "Feedback"
   },
   "language": {
     "switchLabel": "中文",

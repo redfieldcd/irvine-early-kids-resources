@@ -48,6 +48,12 @@ export default function Navbar() {
             >
               {t.nav.ageGuide}
             </Link>
+            <Link
+              href="/feedback"
+              className="text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              {t.footer.feedback}
+            </Link>
             <button
               onClick={toggleLocale}
               className="text-xs font-medium px-3 py-1.5 rounded-full border border-border hover:bg-muted transition-colors"
@@ -103,6 +109,13 @@ export default function Navbar() {
               className="block py-2 text-sm font-medium text-primary"
             >
               {t.nav.ageGuide}
+            </Link>
+            <Link
+              href="/feedback"
+              onClick={() => setOpen(false)}
+              className="block py-2 text-sm text-muted-foreground hover:text-primary"
+            >
+              {t.footer.feedback}
             </Link>
           </div>
         </div>
