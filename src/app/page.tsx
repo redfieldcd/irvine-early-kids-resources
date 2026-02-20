@@ -2,13 +2,10 @@ import Link from "next/link";
 import getDb from "@/lib/db";
 import { getDictionary } from "@/i18n/server";
 import { interpolate } from "@/i18n/helpers";
+import SupportHeart from "@/components/SupportHeart";
 
 const categoryConfig: Record<string, { icon: string; bgColor: string }> = {
-  "sibling-relationships": { icon: "👨‍👩‍👧‍👦", bgColor: "bg-pink-50" },
-  "parenting-techniques": { icon: "📚", bgColor: "bg-blue-50" },
   "mandarin-study": { icon: "🇨🇳", bgColor: "bg-amber-50" },
-  "aftercare-programs": { icon: "🏫", bgColor: "bg-emerald-50" },
-  "weekend-activities": { icon: "☀️", bgColor: "bg-orange-50" },
   "preschools": { icon: "🎒", bgColor: "bg-purple-50" },
 };
 
@@ -54,12 +51,27 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Mission Statement */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl border border-amber-200/60 p-8 text-center">
+          <p className="text-base sm:text-lg text-foreground leading-relaxed">
+            {t.home.missionStatement}
+          </p>
+          <p className="text-sm text-muted-foreground mt-4">
+            {t.home.launchNote}
+          </p>
+          <div className="mt-6">
+            <SupportHeart />
+          </div>
+        </div>
+      </section>
+
       {/* Categories */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h2 className="text-2xl font-bold text-foreground mb-8 text-center">
           {t.home.exploreCategories}
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
           {categories.map((cat) => {
             const config = categoryConfig[cat.slug] || { icon: "📁", bgColor: "bg-gray-50" };
             return (
@@ -96,7 +108,7 @@ export default async function Home() {
               <div className="text-sm text-muted-foreground mt-1">{t.home.statsResources}</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-secondary">6</div>
+              <div className="text-3xl font-bold text-secondary">{categories.length}</div>
               <div className="text-sm text-muted-foreground mt-1">{t.home.statsCategories}</div>
             </div>
             <div>

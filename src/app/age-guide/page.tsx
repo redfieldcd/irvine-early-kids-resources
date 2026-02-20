@@ -15,11 +15,7 @@ interface AgeGuide {
   id: number;
   age_group: string;
   developmental_focus: string;
-  sibling_resources: string;
-  parenting_resources: string;
   mandarin_options: string;
-  aftercare_options: string;
-  weekend_activities: string;
   sort_order: number;
 }
 
@@ -41,11 +37,7 @@ export default async function AgeGuidePage() {
   ).all() as AgeGuide[];
 
   const categoryItems = [
-    { label: t.ageGuide.siblingResources, key: "sibling_resources" as const, link: "/categories/sibling-relationships" },
-    { label: t.ageGuide.parentingResources, key: "parenting_resources" as const, link: "/categories/parenting-techniques" },
     { label: t.ageGuide.mandarinOptions, key: "mandarin_options" as const, link: "/categories/mandarin-study" },
-    { label: t.ageGuide.aftercareOptions, key: "aftercare_options" as const, link: "/categories/aftercare-programs" },
-    { label: t.ageGuide.weekendActivities, key: "weekend_activities" as const, link: "/categories/weekend-activities" },
   ];
 
   return (

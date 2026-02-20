@@ -9,11 +9,7 @@ export default function Navbar() {
   const { t, toggleLocale } = useI18n();
 
   const categories = [
-    { name: t.nav.siblingRelationships, slug: "sibling-relationships" },
-    { name: t.nav.parentingTechniques, slug: "parenting-techniques" },
     { name: t.nav.mandarinStudy, slug: "mandarin-study" },
-    { name: t.nav.aftercarePrograms, slug: "aftercare-programs" },
-    { name: t.nav.weekendActivities, slug: "weekend-activities" },
     { name: t.nav.preschools, slug: "preschools" },
   ];
 

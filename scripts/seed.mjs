@@ -74,11 +74,7 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     age_group TEXT UNIQUE NOT NULL,
     developmental_focus TEXT NOT NULL,
-    sibling_resources TEXT NOT NULL,
-    parenting_resources TEXT NOT NULL,
     mandarin_options TEXT NOT NULL,
-    aftercare_options TEXT NOT NULL,
-    weekend_activities TEXT NOT NULL,
     sort_order INTEGER NOT NULL
   );
 
@@ -89,44 +85,12 @@ db.exec(`
 console.log("Created database tables.");
 
 const SHEET_CONFIGS = {
-  "1. Sibling Relationships": {
-    slug: "sibling-relationships",
-    columns: {
-      name: "Resource Name", type: "Type", ageGroup: "Age Group",
-      description: "Description", keyTopics: "Key Topics",
-      schedule: null, cost: "Cost", website: "Website / Contact", location: "Location",
-    },
-  },
-  "2. Parenting Techniques": {
-    slug: "parenting-techniques",
-    columns: {
-      name: "Resource Name", type: "Type", ageGroup: "Target Audience",
-      description: "Description", keyTopics: "Key Topics / Curriculum",
-      schedule: null, cost: "Cost", website: "Website / Contact", location: "Location",
-    },
-  },
   "3. Mandarin Study": {
     slug: "mandarin-study",
     columns: {
       name: "Resource Name", type: "Type", ageGroup: "Age Group",
       description: "Description", keyTopics: "Curriculum / Approach",
       schedule: "Schedule", cost: "Cost", website: "Website / Contact", location: "Location",
-    },
-  },
-  "4. Aftercare Programs": {
-    slug: "aftercare-programs",
-    columns: {
-      name: "Resource Name", type: "Type", ageGroup: "Age Group",
-      description: "Description", keyTopics: "Activities / Focus",
-      schedule: "Hours", cost: "Cost", website: "Website / Contact", location: "Location",
-    },
-  },
-  "5. Weekend Activities": {
-    slug: "weekend-activities",
-    columns: {
-      name: "Resource Name", type: "Type", ageGroup: "Age Group",
-      description: "Description", keyTopics: "Best For",
-      schedule: null, cost: "Cost", website: "Website / Contact", location: "Location",
     },
   },
 };
@@ -154,8 +118,8 @@ const insertResource = db.prepare(`
 `);
 
 const insertAgeGuide = db.prepare(`
-  INSERT INTO age_group_guides (age_group, developmental_focus, sibling_resources, parenting_resources, mandarin_options, aftercare_options, weekend_activities, sort_order)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  INSERT INTO age_group_guides (age_group, developmental_focus, mandarin_options, sort_order)
+  VALUES (?, ?, ?, ?)
 `);
 
 // Read Excel file
@@ -166,20 +130,27 @@ const workbook = XLSX.readFile(xlsxPath);
 const overviewSheet = workbook.Sheets["Overview"];
 const overviewRows = XLSX.utils.sheet_to_json(overviewSheet);
 const categoryMap = {};
+const REMOVED_SLUGS = new Set(["sibling-relationships", "parenting-techniques", "aftercare-programs", "weekend-activities"]);
 
 const seedCategories = db.transaction(() => {
+  let sortOrder = 0;
   for (let i = 0; i < overviewRows.length; i++) {
     const row = overviewRows[i];
     const verticalName = row["Vertical"] || "";
     const cleanName = verticalName.replace(/^\d+\.\s*/, "");
     const slug = toSlug(cleanName);
+    if (REMOVED_SLUGS.has(slug)) {
+      console.log(`Skipped removed category: ${cleanName}`);
+      continue;
+    }
+    sortOrder++;
     const result = insertCategory.run(
       cleanName, slug,
       row["Description"] || "",
       row["Target Age Groups"] || "",
       row["Key Focus Areas"] || "",
       String(row["# of Resources Listed"] || "0"),
-      i + 1
+      sortOrder
     );
     categoryMap[slug] = result.lastInsertRowid;
     console.log(`Created category: ${cleanName} (id=${result.lastInsertRowid})`);
@@ -254,11 +225,7 @@ const seedAgeGuide = db.transaction(() => {
     insertAgeGuide.run(
       row["Age Group"] || "",
       row["Developmental Focus"] || "",
-      row["Sibling Resources"] || "",
-      row["Parenting Resources"] || "",
       row["Mandarin Study Options"] || "",
-      row["Aftercare Options"] || "",
-      row["Weekend Activities"] || "",
       i + 1
     );
     console.log(`Age Group Guide: ${row["Age Group"]}`);
