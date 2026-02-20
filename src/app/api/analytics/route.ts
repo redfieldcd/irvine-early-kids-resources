@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "eventType and page required" }, { status: 400 });
   }
 
-  trackEvent(
+  await trackEvent(
     eventType,
     sessionId,
     page,

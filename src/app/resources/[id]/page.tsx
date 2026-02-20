@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import getDb from "@/lib/db";
+import getTurso from "@/lib/turso";
 import { getSessionId } from "@/lib/session";
 import { getDictionary } from "@/i18n/server";
 import LikeButton from "@/components/resources/LikeButton";
@@ -24,8 +25,6 @@ interface Resource {
   category_name: string;
   category_slug: string;
   subcategory_name: string | null;
-  like_count: number;
-  comment_count: number;
 }
 
 interface Comment {
@@ -51,16 +50,16 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function ResourceDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const db = getDb();
+  const turso = getTurso();
   const { id } = await params;
   const resourceId = Number(id);
   const sessionId = await getSessionId();
   const t = await getDictionary();
 
+  // Read static resource data from local SQLite
   const resource = db.prepare(`
     SELECT r.*, c.name as category_name, c.slug as category_slug,
-           s.name as subcategory_name,
-           COALESCE((SELECT SUM(value) FROM likes WHERE resource_id = r.id), 0) as like_count,
-           (SELECT COUNT(*) FROM comments WHERE resource_id = r.id) as comment_count
+           s.name as subcategory_name
     FROM resources r
     JOIN categories c ON r.category_id = c.id
     LEFT JOIN subcategories s ON r.subcategory_id = s.id
@@ -69,15 +68,29 @@ export default async function ResourceDetailPage({ params }: { params: Promise<{
 
   if (!resource) notFound();
 
-  const userVote = sessionId
-    ? db.prepare(
-        "SELECT value FROM likes WHERE resource_id = ? AND session_id = ?"
-      ).get(resourceId, sessionId) as { value: number } | undefined
-    : undefined;
+  // Read user-generated data from Turso (persistent)
+  const [likeResult, userVoteResult, commentsResult] = await Promise.all([
+    turso.execute({
+      sql: "SELECT COALESCE(SUM(value), 0) as like_count FROM likes WHERE resource_id = ?",
+      args: [resourceId],
+    }),
+    sessionId
+      ? turso.execute({
+          sql: "SELECT value FROM likes WHERE resource_id = ? AND session_id = ?",
+          args: [resourceId, sessionId],
+        })
+      : Promise.resolve({ rows: [] }),
+    turso.execute({
+      sql: "SELECT * FROM comments WHERE resource_id = ? ORDER BY created_at DESC",
+      args: [resourceId],
+    }),
+  ]);
 
-  const comments = db.prepare(
-    "SELECT * FROM comments WHERE resource_id = ? ORDER BY created_at DESC"
-  ).all(resourceId) as Comment[];
+  const likeCount = (likeResult.rows[0]?.like_count as number) ?? 0;
+  const userVote = userVoteResult.rows.length > 0
+    ? (userVoteResult.rows[0].value as number)
+    : null;
+  const comments = commentsResult.rows as unknown as Comment[];
 
   const topics = resource.key_topics
     ? resource.key_topics.split(",").map((item) => item.trim()).filter(Boolean)
@@ -161,8 +174,8 @@ export default async function ResourceDetailPage({ params }: { params: Promise<{
         <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-border">
           <LikeButton
             resourceId={resource.id}
-            initialLikeCount={resource.like_count}
-            initialUserVote={userVote?.value ?? null}
+            initialLikeCount={likeCount}
+            initialUserVote={userVote}
           />
           {resource.website && (
             <OutboundLink href={resource.website} resourceId={resource.id}>

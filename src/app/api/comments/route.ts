@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import getDb from "@/lib/db";
+import getTurso from "@/lib/turso";
 import { getOrCreateSessionId } from "@/lib/session";
 
 export async function GET(request: NextRequest) {
-  const db = getDb();
+  const turso = getTurso();
   const { searchParams } = new URL(request.url);
   const resourceId = searchParams.get("resourceId");
 
@@ -11,15 +11,16 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "resourceId required" }, { status: 400 });
   }
 
-  const comments = db.prepare(
-    "SELECT * FROM comments WHERE resource_id = ? ORDER BY created_at DESC"
-  ).all(Number(resourceId));
+  const result = await turso.execute({
+    sql: "SELECT * FROM comments WHERE resource_id = ? ORDER BY created_at DESC",
+    args: [Number(resourceId)],
+  });
 
-  return NextResponse.json({ comments });
+  return NextResponse.json({ comments: result.rows });
 }
 
 export async function POST(request: NextRequest) {
-  const db = getDb();
+  const turso = getTurso();
   const sessionId = await getOrCreateSessionId();
   const { resourceId, nickname, body } = await request.json();
 
@@ -35,11 +36,15 @@ export async function POST(request: NextRequest) {
     ? nickname.trim().substring(0, 50)
     : "Anonymous Parent";
 
-  const result = db.prepare(
-    "INSERT INTO comments (resource_id, session_id, nickname, body) VALUES (?, ?, ?, ?)"
-  ).run(resourceId, sessionId, sanitizedNickname, body.trim());
+  const result = await turso.execute({
+    sql: "INSERT INTO comments (resource_id, session_id, nickname, body) VALUES (?, ?, ?, ?)",
+    args: [resourceId, sessionId, sanitizedNickname, body.trim()],
+  });
 
-  const comment = db.prepare("SELECT * FROM comments WHERE id = ?").get(result.lastInsertRowid);
+  const comment = await turso.execute({
+    sql: "SELECT * FROM comments WHERE id = ?",
+    args: [Number(result.lastInsertRowid)],
+  });
 
-  return NextResponse.json({ comment }, { status: 201 });
+  return NextResponse.json({ comment: comment.rows[0] }, { status: 201 });
 }

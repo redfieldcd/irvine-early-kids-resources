@@ -1,15 +1,16 @@
-import getDb from "./db";
+import getTurso from "./turso";
 
-export function trackEvent(
+export async function trackEvent(
   eventType: string,
   sessionId: string,
   page: string,
   resourceId?: number,
   metadata?: string
 ) {
-  const db = getDb();
-  db.prepare(
-    `INSERT INTO analytics_events (event_type, session_id, page, resource_id, metadata)
-     VALUES (?, ?, ?, ?, ?)`
-  ).run(eventType, sessionId, page, resourceId ?? null, metadata ?? null);
+  const turso = getTurso();
+  await turso.execute({
+    sql: `INSERT INTO analytics_events (event_type, session_id, page, resource_id, metadata)
+     VALUES (?, ?, ?, ?, ?)`,
+    args: [eventType, sessionId, page, resourceId ?? null, metadata ?? null],
+  });
 }

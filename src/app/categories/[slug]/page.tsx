@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import getDb from "@/lib/db";
+import getTurso from "@/lib/turso";
 import type { Metadata } from "next";
 import { getDictionary } from "@/i18n/server";
 import { interpolate } from "@/i18n/helpers";
@@ -58,6 +59,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const db = getDb();
+  const turso = getTurso();
   const { slug } = await params;
   const t = await getDictionary();
   const category = db.prepare("SELECT * FROM categories WHERE slug = ?").get(slug) as Category | undefined;
@@ -68,17 +70,46 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     "SELECT * FROM subcategories WHERE category_id = ? ORDER BY sort_order"
   ).all(category.id) as Subcategory[];
 
+  // Get resources from local SQLite (static content only)
   const resources = db.prepare(`
-    SELECT r.*, s.name as subcategory_name,
-           COALESCE(SUM(l.value), 0) as like_count,
-           (SELECT COUNT(*) FROM comments WHERE resource_id = r.id) as comment_count
+    SELECT r.*, s.name as subcategory_name
     FROM resources r
     LEFT JOIN subcategories s ON r.subcategory_id = s.id
-    LEFT JOIN likes l ON r.id = l.resource_id
     WHERE r.category_id = ?
-    GROUP BY r.id
     ORDER BY r.sort_order
   `).all(category.id) as Resource[];
+
+  // Fetch like counts and comment counts from Turso
+  if (resources.length > 0) {
+    const ids = resources.map((r) => r.id);
+    const placeholders = ids.map(() => "?").join(",");
+
+    const [likeResults, commentResults] = await Promise.all([
+      turso.execute({
+        sql: `SELECT resource_id, COALESCE(SUM(value), 0) as like_count FROM likes WHERE resource_id IN (${placeholders}) GROUP BY resource_id`,
+        args: ids,
+      }),
+      turso.execute({
+        sql: `SELECT resource_id, COUNT(*) as comment_count FROM comments WHERE resource_id IN (${placeholders}) GROUP BY resource_id`,
+        args: ids,
+      }),
+    ]);
+
+    const likeCounts = new Map<number, number>();
+    for (const row of likeResults.rows) {
+      likeCounts.set(row.resource_id as number, row.like_count as number);
+    }
+
+    const commentCounts = new Map<number, number>();
+    for (const row of commentResults.rows) {
+      commentCounts.set(row.resource_id as number, row.comment_count as number);
+    }
+
+    for (const resource of resources) {
+      resource.like_count = likeCounts.get(resource.id) ?? 0;
+      resource.comment_count = commentCounts.get(resource.id) ?? 0;
+    }
+  }
 
   const gradient = categoryColors[slug] || "from-gray-50 to-white";
 

@@ -21,7 +21,7 @@ function toSlug(str) {
     .substring(0, 100);
 }
 
-// Create tables
+// Create tables (also drop legacy user-data tables that may exist from older schema)
 db.exec(`
   DROP TABLE IF EXISTS analytics_events;
   DROP TABLE IF EXISTS comments;
@@ -70,24 +70,6 @@ db.exec(`
     created_at TEXT DEFAULT (datetime('now'))
   );
 
-  CREATE TABLE likes (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    resource_id INTEGER NOT NULL REFERENCES resources(id),
-    session_id TEXT NOT NULL,
-    value INTEGER NOT NULL,
-    created_at TEXT DEFAULT (datetime('now')),
-    UNIQUE(resource_id, session_id)
-  );
-
-  CREATE TABLE comments (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    resource_id INTEGER NOT NULL REFERENCES resources(id),
-    session_id TEXT NOT NULL,
-    nickname TEXT DEFAULT 'Anonymous Parent',
-    body TEXT NOT NULL,
-    created_at TEXT DEFAULT (datetime('now'))
-  );
-
   CREATE TABLE age_group_guides (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     age_group TEXT UNIQUE NOT NULL,
@@ -100,22 +82,8 @@ db.exec(`
     sort_order INTEGER NOT NULL
   );
 
-  CREATE TABLE analytics_events (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    event_type TEXT NOT NULL,
-    resource_id INTEGER REFERENCES resources(id),
-    session_id TEXT NOT NULL,
-    page TEXT NOT NULL,
-    metadata TEXT,
-    created_at TEXT DEFAULT (datetime('now'))
-  );
-
   CREATE INDEX idx_resources_category ON resources(category_id);
   CREATE INDEX idx_resources_subcategory ON resources(subcategory_id);
-  CREATE INDEX idx_likes_resource ON likes(resource_id);
-  CREATE INDEX idx_comments_resource ON comments(resource_id);
-  CREATE INDEX idx_analytics_event_type ON analytics_events(event_type);
-  CREATE INDEX idx_analytics_resource ON analytics_events(resource_id);
 `);
 
 console.log("Created database tables.");
