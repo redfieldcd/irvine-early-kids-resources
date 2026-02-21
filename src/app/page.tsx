@@ -64,6 +64,15 @@ export default async function Home() {
           <div className="mt-6">
             <SupportHeart />
           </div>
+          <div className="mt-8 pt-6 border-t border-amber-200/60">
+            <h3 className="text-base font-semibold text-foreground mb-1">
+              {t.home.subscribeTitle}
+            </h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              {t.home.subscribeSubtitle}
+            </p>
+            <SubscribeForm />
+          </div>
         </div>
       </section>
 
@@ -121,19 +130,6 @@ export default async function Home() {
               <div className="text-sm text-muted-foreground mt-1">{t.home.statsOrangeCounty}</div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Subscribe */}
-      <section className="bg-gradient-to-br from-blue-50 via-white to-purple-50 py-14 border-t border-border">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl font-bold text-foreground mb-2">
-            {t.home.subscribeTitle}
-          </h2>
-          <p className="text-sm text-muted-foreground mb-6">
-            {t.home.subscribeSubtitle}
-          </p>
-          <SubscribeForm />
         </div>
       </section>
     </div>
