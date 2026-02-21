@@ -7,7 +7,9 @@
     "seed": "node scripts/seed.mjs",
     "build": "node scripts/seed.mjs && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "backup": "node scripts/backup-turso.mjs",
+    "restore": "node scripts/backup-turso.mjs --restore"
   },
   "dependencies": {
     "@libsql/client": "^0.17.0",

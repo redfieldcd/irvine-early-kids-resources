@@ -37,6 +37,7 @@ yarn-error.log*
 /data/database.db
 /data/database.db-wal
 /data/database.db-shm
+/data/backups/
 dev.db
 
 # vercel
