@@ -28,7 +28,16 @@
     "statsResources": "Resources",
     "statsCategories": "Categories",
     "statsAgeRange": "Age Range",
-    "statsOrangeCounty": "& Orange County"
+    "statsOrangeCounty": "& Orange County",
+    "subscribeTitle": "Stay in the Loop",
+    "subscribeSubtitle": "Get notified when we add new resources, schools, or features.",
+    "subscribePlaceholder": "your@email.com",
+    "subscribeButton": "Subscribe",
+    "subscribeLoading": "Subscribing...",
+    "subscribeSuccess": "You're subscribed! We'll keep you posted.",
+    "subscribeAlready": "You're already subscribed. Thank you!",
+    "subscribeError": "Something went wrong. Please try again.",
+    "subscribePrivacy": "No spam, ever. Unsubscribe anytime."
   },
   "ageGuide": {
     "breadcrumbHome": "Home",

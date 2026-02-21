@@ -33,7 +33,7 @@ const restoreFile = process.argv[3];
 async function backup() {
   console.log("Backing up Turso data...\n");
 
-  const tables = ["likes", "comments", "analytics_events", "support_hearts"];
+  const tables = ["likes", "comments", "analytics_events", "support_hearts", "subscribers"];
   const data = {
     backupDate: new Date().toISOString(),
     tables: {}

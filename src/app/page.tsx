@@ -3,6 +3,7 @@ import getDb from "@/lib/db";
 import { getDictionary } from "@/i18n/server";
 import { interpolate } from "@/i18n/helpers";
 import SupportHeart from "@/components/SupportHeart";
+import SubscribeForm from "@/components/SubscribeForm";
 
 const categoryConfig: Record<string, { icon: string; bgColor: string }> = {
   "mandarin-study": { icon: "🇨🇳", bgColor: "bg-amber-50" },
@@ -120,6 +121,22 @@ export default async function Home() {
               <div className="text-sm text-muted-foreground mt-1">{t.home.statsOrangeCounty}</div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Subscribe */}
+      <section className="bg-gradient-to-br from-blue-50 via-white to-purple-50 py-14 border-t border-border">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-2xl font-bold text-foreground mb-2">
+            {t.home.subscribeTitle}
+          </h2>
+          <p className="text-sm text-muted-foreground mb-6">
+            {t.home.subscribeSubtitle}
+          </p>
+          <SubscribeForm />
+          <p className="text-xs text-muted-foreground mt-4">
+            {t.home.subscribePrivacy}
+          </p>
         </div>
       </section>
     </div>

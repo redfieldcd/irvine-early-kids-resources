@@ -28,7 +28,16 @@
     "statsResources": "个资源",
     "statsCategories": "个分类",
     "statsAgeRange": "年龄段",
-    "statsOrangeCounty": "及橙县"
+    "statsOrangeCounty": "及橙县",
+    "subscribeTitle": "订阅更新",
+    "subscribeSubtitle": "当我们添加新资源、学校或功能时，第一时间通知您。",
+    "subscribePlaceholder": "your@email.com",
+    "subscribeButton": "订阅",
+    "subscribeLoading": "订阅中...",
+    "subscribeSuccess": "订阅成功！我们会及时通知您。",
+    "subscribeAlready": "您已订阅，感谢支持！",
+    "subscribeError": "出了点问题，请重试。",
+    "subscribePrivacy": "绝不发送垃圾邮件，随时可以取消订阅。"
   },
   "ageGuide": {
     "breadcrumbHome": "首页",
