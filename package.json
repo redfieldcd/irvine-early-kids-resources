@@ -9,9 +9,11 @@
     "start": "next start",
     "lint": "eslint",
     "backup": "node scripts/backup-turso.mjs",
-    "restore": "node scripts/backup-turso.mjs --restore"
+    "restore": "node scripts/backup-turso.mjs --restore",
+    "ikr": "node cli/ikr.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
     "@libsql/client": "^0.17.0",
     "@vercel/analytics": "^1.6.1",
     "better-sqlite3": "^12.6.2",
