@@ -134,9 +134,6 @@ export default async function Home() {
             {t.home.subscribeSubtitle}
           </p>
           <SubscribeForm />
-          <p className="text-xs text-muted-foreground mt-4">
-            {t.home.subscribePrivacy}
-          </p>
         </div>
       </section>
     </div>
