@@ -8,6 +8,7 @@ import SubscribeForm from "@/components/SubscribeForm";
 const categoryConfig: Record<string, { icon: string; bgColor: string }> = {
   "mandarin-study": { icon: "🇨🇳", bgColor: "bg-amber-50" },
   "preschools": { icon: "🎒", bgColor: "bg-purple-50" },
+  "summer-camps": { icon: "☀️", bgColor: "bg-orange-50" },
 };
 
 interface Category {
@@ -81,7 +82,7 @@ export default async function Home() {
         <h2 className="text-2xl font-bold text-foreground mb-8 text-center">
           {t.home.exploreCategories}
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
           {categories.map((cat) => {
             const config = categoryConfig[cat.slug] || { icon: "📁", bgColor: "bg-gray-50" };
             return (

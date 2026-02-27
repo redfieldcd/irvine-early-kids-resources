@@ -11,6 +11,7 @@ export default function Navbar() {
   const categories = [
     { name: t.nav.mandarinStudy, slug: "mandarin-study" },
     { name: t.nav.preschools, slug: "preschools" },
+    { name: t.nav.summerCamps, slug: "summer-camps" },
   ];
 
   return (
