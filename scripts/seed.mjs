@@ -400,11 +400,12 @@ const seedSummerCamps = db.transaction(() => {
     }
     globalUsedSlugs.add(slug);
 
+    const imageUrl = `/images/resources/${slug}.jpg`;
     insertResource.run(
       camp.name, slug, camp.type, camp.ageGroup,
       camp.description, camp.keyTopics, camp.schedule || null, camp.cost,
       camp.website || null, camp.location || null,
-      null,
+      imageUrl,
       campCategoryId, subcatMap[camp.subcategory] || null, resourceOrder
     );
     console.log(`    Resource: ${camp.name}`);
