@@ -1,4 +1,5 @@
 import XLSX from "xlsx";
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
@@ -7,7 +8,13 @@ const require = createRequire(import.meta.url);
 const Database = require("better-sqlite3");
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const publicDir = path.resolve(__dirname, "..", "public");
 const dbPath = path.resolve(__dirname, "..", "data", "database.db");
+
+function getImageUrl(slug) {
+  const imgPath = `/images/resources/${slug}.jpg`;
+  return fs.existsSync(path.join(publicDir, imgPath)) ? imgPath : null;
+}
 const db = new Database(dbPath);
 
 // Enable WAL mode for better concurrent read performance
@@ -199,7 +206,6 @@ const seedResources = db.transaction(() => {
       const scheduleCol = config.columns.schedule;
       const scheduleVal = scheduleCol ? String(row[scheduleCol] || "") || null : null;
 
-      const resImageUrl = `/images/resources/${slug}.jpg`;
       insertResource.run(
         String(name), slug, String(type),
         String(row[config.columns.ageGroup] || ""),
@@ -209,7 +215,7 @@ const seedResources = db.transaction(() => {
         String(row[config.columns.cost] || ""),
         String(row[config.columns.website] || "") || null,
         String(row[config.columns.location] || "") || null,
-        resImageUrl,
+        getImageUrl(slug),
         categoryId, currentSubcategoryId, resourceOrder
       );
       console.log(`    Resource: ${name}`);
@@ -311,12 +317,11 @@ const seedPreschools = db.transaction(() => {
 
     const subcategoryId = areaSubcategoryMap[area] || null;
 
-    const psImageUrl = `/images/resources/${slug}.jpg`;
     insertResource.run(
       String(name), slug, typeNotes, programs || "PreK",
       description, keyTopics, hours, cost,
       website, address,
-      psImageUrl,
+      getImageUrl(slug),
       preschoolCategoryId, subcategoryId, resourceOrder
     );
     console.log(`    Resource: ${name}`);
@@ -402,12 +407,11 @@ const seedSummerCamps = db.transaction(() => {
     }
     globalUsedSlugs.add(slug);
 
-    const imageUrl = `/images/resources/${slug}.jpg`;
     insertResource.run(
       camp.name, slug, camp.type, camp.ageGroup,
       camp.description, camp.keyTopics, camp.schedule || null, camp.cost,
       camp.website || null, camp.location || null,
-      imageUrl,
+      getImageUrl(slug),
       campCategoryId, subcatMap[camp.subcategory] || null, resourceOrder
     );
     console.log(`    Resource: ${camp.name}`);
