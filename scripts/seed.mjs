@@ -376,7 +376,7 @@ const SUMMER_CAMPS = [
 
 const seedSummerCamps = db.transaction(() => {
   const campResult = insertCategory.run(
-    "Summer Camps",
+    "Summer Camps 2026",
     "summer-camps",
     "Top-rated summer camps in Irvine for kids ages 0-7 — STEM, nature, arts, sports, language immersion, and more.",
     "0-12 years",
