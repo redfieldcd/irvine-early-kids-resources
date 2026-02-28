@@ -4,6 +4,20 @@ import { getDictionary } from "@/i18n/server";
 import { interpolate } from "@/i18n/helpers";
 import SupportHeart from "@/components/SupportHeart";
 import SubscribeForm from "@/components/SubscribeForm";
+import { organizationJsonLd } from "@/lib/jsonld";
+import { SITE_URL } from "@/lib/constants";
+import type { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getDictionary();
+  return {
+    title: t.meta.siteTitle,
+    description: t.meta.siteDescription,
+    alternates: {
+      canonical: SITE_URL,
+    },
+  };
+}
 
 const categoryConfig: Record<string, { icon: string; bgColor: string }> = {
   "mandarin-study": { icon: "🇨🇳", bgColor: "bg-amber-50" },
@@ -32,6 +46,12 @@ export default async function Home() {
 
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(organizationJsonLd()),
+        }}
+      />
       {/* Hero */}
       <section className="bg-gradient-to-br from-blue-50 via-white to-pink-50 py-16 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

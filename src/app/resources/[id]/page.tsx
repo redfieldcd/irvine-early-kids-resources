@@ -9,6 +9,8 @@ import LikeButton from "@/components/resources/LikeButton";
 import OutboundLink from "@/components/resources/OutboundLink";
 import CommentSection from "@/components/comments/CommentSection";
 import type { Metadata } from "next";
+import { breadcrumbJsonLd, educationalOrgJsonLd } from "@/lib/jsonld";
+import { SITE_URL } from "@/lib/constants";
 
 interface Resource {
   id: number;
@@ -41,12 +43,22 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   const t = await getDictionary();
   const resource = db.prepare(`
-    SELECT r.name, r.description FROM resources r WHERE r.id = ?
-  `).get(Number(id)) as { name: string; description: string } | undefined;
+    SELECT r.name, r.description, r.image_url FROM resources r WHERE r.id = ?
+  `).get(Number(id)) as { name: string; description: string; image_url: string | null } | undefined;
   if (!resource) return { title: t.meta.notFound };
   return {
-    title: `${resource.name} | ${t.meta.siteTitle}`,
+    title: resource.name,
     description: resource.description.substring(0, 160),
+    alternates: {
+      canonical: `${SITE_URL}/resources/${id}`,
+    },
+    openGraph: {
+      title: resource.name,
+      description: resource.description.substring(0, 160),
+      ...(resource.image_url && {
+        images: [{ url: resource.image_url, width: 800, height: 400 }],
+      }),
+    },
   };
 }
 
@@ -98,8 +110,31 @@ export default async function ResourceDetailPage({ params }: { params: Promise<{
     ? resource.key_topics.split(",").map((item) => item.trim()).filter(Boolean)
     : [];
 
+  const breadcrumbs = breadcrumbJsonLd([
+    { name: "Home", url: SITE_URL },
+    { name: resource.category_name, url: `${SITE_URL}/categories/${resource.category_slug}` },
+    { name: resource.name, url: `${SITE_URL}/resources/${resource.id}` },
+  ]);
+
+  const eduOrg = educationalOrgJsonLd({
+    name: resource.name,
+    description: resource.description,
+    id: resource.id,
+    location: resource.location,
+    website: resource.website,
+    image_url: resource.image_url,
+  });
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(eduOrg) }}
+      />
       {/* Breadcrumbs */}
       <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
         <Link href="/" className="hover:text-primary transition-colors">{t.resource.breadcrumbHome}</Link>

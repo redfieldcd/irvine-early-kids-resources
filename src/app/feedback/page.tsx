@@ -2,12 +2,16 @@ import Link from "next/link";
 import { getDictionary } from "@/i18n/server";
 import FeedbackForm from "@/components/FeedbackForm";
 import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/constants";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getDictionary();
   return {
-    title: `${t.feedback.pageTitle} | ${t.meta.siteTitle}`,
+    title: t.feedback.pageTitle,
     description: t.feedback.pageDescription,
+    alternates: {
+      canonical: `${SITE_URL}/feedback`,
+    },
   };
 }
 

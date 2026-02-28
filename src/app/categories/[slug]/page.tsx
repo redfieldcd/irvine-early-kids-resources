@@ -6,6 +6,8 @@ import getTurso from "@/lib/turso";
 import type { Metadata } from "next";
 import { getDictionary } from "@/i18n/server";
 import { interpolate } from "@/i18n/helpers";
+import { breadcrumbJsonLd } from "@/lib/jsonld";
+import { SITE_URL } from "@/lib/constants";
 
 interface Resource {
   id: number;
@@ -54,8 +56,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const category = db.prepare("SELECT * FROM categories WHERE slug = ?").get(slug) as Category | undefined;
   if (!category) return { title: t.meta.notFound };
   return {
-    title: `${category.name} | ${t.meta.siteTitle}`,
+    title: category.name,
     description: category.description,
+    alternates: {
+      canonical: `${SITE_URL}/categories/${slug}`,
+    },
+    openGraph: {
+      title: category.name,
+      description: category.description,
+    },
   };
 }
 
@@ -123,8 +132,17 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     grouped[key].push(r);
   }
 
+  const breadcrumbs = breadcrumbJsonLd([
+    { name: "Home", url: SITE_URL },
+    { name: category.name, url: `${SITE_URL}/categories/${slug}` },
+  ]);
+
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
+      />
       {/* Header */}
       <section className={`bg-gradient-to-br ${gradient} py-12`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

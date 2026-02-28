@@ -2,12 +2,16 @@ import Link from "next/link";
 import getDb from "@/lib/db";
 import type { Metadata } from "next";
 import { getDictionary } from "@/i18n/server";
+import { SITE_URL } from "@/lib/constants";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getDictionary();
   return {
-    title: t.meta.ageGuideTitle,
+    title: "Age Group Guide",
     description: t.meta.ageGuideDescription,
+    alternates: {
+      canonical: `${SITE_URL}/age-guide`,
+    },
   };
 }
 

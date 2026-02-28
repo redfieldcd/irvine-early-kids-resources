@@ -1,0 +1,26 @@
+import type { MetadataRoute } from "next";
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: "Irvine Early Kids Resources",
+    short_name: "IKR",
+    description:
+      "Find the best learning resources for children ages 0-7 in Irvine, CA.",
+    start_url: "/",
+    display: "standalone",
+    background_color: "#ffffff",
+    theme_color: "#3b82f6",
+    icons: [
+      {
+        src: "/images/icon-192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        src: "/images/icon-512.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
+    ],
+  };
+}
