@@ -199,6 +199,7 @@ const seedResources = db.transaction(() => {
       const scheduleCol = config.columns.schedule;
       const scheduleVal = scheduleCol ? String(row[scheduleCol] || "") || null : null;
 
+      const resImageUrl = `/images/resources/${slug}.jpg`;
       insertResource.run(
         String(name), slug, String(type),
         String(row[config.columns.ageGroup] || ""),
@@ -208,7 +209,7 @@ const seedResources = db.transaction(() => {
         String(row[config.columns.cost] || ""),
         String(row[config.columns.website] || "") || null,
         String(row[config.columns.location] || "") || null,
-        null,
+        resImageUrl,
         categoryId, currentSubcategoryId, resourceOrder
       );
       console.log(`    Resource: ${name}`);
@@ -310,11 +311,12 @@ const seedPreschools = db.transaction(() => {
 
     const subcategoryId = areaSubcategoryMap[area] || null;
 
+    const psImageUrl = `/images/resources/${slug}.jpg`;
     insertResource.run(
       String(name), slug, typeNotes, programs || "PreK",
       description, keyTopics, hours, cost,
       website, address,
-      null,
+      psImageUrl,
       preschoolCategoryId, subcategoryId, resourceOrder
     );
     console.log(`    Resource: ${name}`);
