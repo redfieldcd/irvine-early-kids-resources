@@ -64,6 +64,7 @@ db.exec(`
     cost TEXT NOT NULL,
     website TEXT,
     location TEXT,
+    image_url TEXT,
     category_id INTEGER NOT NULL REFERENCES categories(id),
     subcategory_id INTEGER REFERENCES subcategories(id),
     sort_order INTEGER NOT NULL,
@@ -113,8 +114,8 @@ const insertSubcategory = db.prepare(`
 `);
 
 const insertResource = db.prepare(`
-  INSERT INTO resources (name, slug, type, age_group, description, key_topics, schedule, cost, website, location, category_id, subcategory_id, sort_order)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  INSERT INTO resources (name, slug, type, age_group, description, key_topics, schedule, cost, website, location, image_url, category_id, subcategory_id, sort_order)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `);
 
 const insertAgeGuide = db.prepare(`
@@ -207,6 +208,7 @@ const seedResources = db.transaction(() => {
         String(row[config.columns.cost] || ""),
         String(row[config.columns.website] || "") || null,
         String(row[config.columns.location] || "") || null,
+        null,
         categoryId, currentSubcategoryId, resourceOrder
       );
       console.log(`    Resource: ${name}`);
@@ -312,6 +314,7 @@ const seedPreschools = db.transaction(() => {
       String(name), slug, typeNotes, programs || "PreK",
       description, keyTopics, hours, cost,
       website, address,
+      null,
       preschoolCategoryId, subcategoryId, resourceOrder
     );
     console.log(`    Resource: ${name}`);
@@ -401,6 +404,7 @@ const seedSummerCamps = db.transaction(() => {
       camp.name, slug, camp.type, camp.ageGroup,
       camp.description, camp.keyTopics, camp.schedule || null, camp.cost,
       camp.website || null, camp.location || null,
+      null,
       campCategoryId, subcatMap[camp.subcategory] || null, resourceOrder
     );
     console.log(`    Resource: ${camp.name}`);

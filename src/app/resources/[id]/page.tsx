@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import getDb from "@/lib/db";
@@ -21,6 +22,7 @@ interface Resource {
   cost: string;
   website: string | null;
   location: string | null;
+  image_url: string | null;
   category_id: number;
   category_name: string;
   category_slug: string;
@@ -108,6 +110,26 @@ export default async function ResourceDetailPage({ params }: { params: Promise<{
         <span>/</span>
         <span className="text-foreground truncate">{resource.name}</span>
       </div>
+
+      {/* Hero Image */}
+      {resource.image_url ? (
+        <div className="relative w-full h-48 sm:h-64 rounded-xl overflow-hidden mb-6">
+          <Image
+            src={resource.image_url}
+            alt={resource.name}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 896px"
+            priority
+          />
+        </div>
+      ) : (
+        <div className="w-full h-48 sm:h-64 rounded-xl overflow-hidden mb-6 bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+          <svg className="w-16 h-16 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+          </svg>
+        </div>
+      )}
 
       {/* Resource Header */}
       <div className="bg-card rounded-xl border border-border p-6 sm:p-8 mb-6">

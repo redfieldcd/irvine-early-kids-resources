@@ -10,6 +10,7 @@
     "lint": "eslint",
     "backup": "node scripts/backup-turso.mjs",
     "restore": "node scripts/backup-turso.mjs --restore",
+    "capture-images": "node scripts/capture-images.mjs",
     "ikr": "node cli/ikr.mjs"
   },
   "dependencies": {
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/better-sqlite3": "^7.6.13",
+    "puppeteer": "^24.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
